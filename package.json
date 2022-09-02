@@ -18,9 +18,6 @@
     "comments",
     "debug"
   ],
-  "bin": {
-    "flh": "bin/flh.js"
-  },
   "files": ["src"],
   "scripts": {
     "prepare": "husky install",
@@ -45,7 +42,7 @@
     "clean": "flh rm -f ./cjs ./esm"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "publishConfig": {
     "access": "public",
