@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`strip-loader should leave normal files untouched: code 1`] = `undefined`;
+
+exports[`strip-loader should leave normal files untouched: errors 1`] = `[]`;
+
+exports[`strip-loader should leave normal files untouched: warnings 1`] = `[]`;
+
+exports[`strip-loader should trip devblock by custom options: errors 1`] = `[]`;
+
+exports[`strip-loader should trip devblock by custom options: warnings 1`] = `[]`;
+
+exports[`strip-loader should trip devblock by default 1`] = `
+"export class AbcDevblockTest {
+    constructor() {
+        console.log('test for production');
+        this.test();
+        /*
+            
+            
+            
+         */ 
+    }
+    test() {
+        console.log('test for production');
+    }
+}
+"
+`;
+
+exports[`strip-loader should trip devblock by default: errors 1`] = `[]`;
+
+exports[`strip-loader should trip devblock by default: warnings 1`] = `[]`;

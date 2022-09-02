@@ -1,0 +1,21 @@
+.grs.config.js
+# npm-debug.log
+*.log
+.DS_Store
+/release/
+/debug/
+/dist/
+/esm
+/cjs
+/docs
+tmp
+coverage
+package-lock.json
+yarn.lock
+yarn-error.log
+pnpm-lock.yaml
+.pnpm-debug.log
+node_modules
+build
+.nyc_output
+.husky/post-commit
