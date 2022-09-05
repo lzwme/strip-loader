@@ -1,10 +1,10 @@
 import path from 'path';
 import fs from 'fs';
 import { compile, getCodeFromBundle, getCompiler, getErrors, getModuleSource, getWarnings } from './helpers';
-import type { StripLoaderOptions } from '../src/index';
+import type { StripOptions } from '../src/index';
 
 // const isWin = process.platform === 'win32';
-const defaultOptions: StripLoaderOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
+const defaultOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
 
 describe('strip-loader', () => {
   it('should leave normal files untouched', async () => {
@@ -58,9 +58,13 @@ describe('strip-loader', () => {
   }, 10_000);
 
   it('should trip devblock by custom options', async () => {
-    const customOptions: StripLoaderOptions = {
-      start: 'lzwme:debug:start',
-      end: 'lzwme:debug:end',
+    const customOptions: StripOptions = {
+      blocks: [
+        {
+          start: 'lzwme:debug:start',
+          end: 'lzwme:debug:end',
+        },
+      ],
       isReplaceWithPlaceHolder: false,
       debug: true,
     };
@@ -70,10 +74,10 @@ describe('strip-loader', () => {
     const codeSource = fs.readFileSync(path.resolve(compiler.options.context, testId), 'utf8');
     const moduleSource = getModuleSource(testId, stats) as string;
 
-    expect(codeSource.includes(customOptions.start)).toBeTruthy();
-    expect(codeSource.includes(customOptions.end)).toBeTruthy();
-    expect(moduleSource.includes(customOptions.start)).toBeFalsy();
-    expect(moduleSource.includes(customOptions.end)).toBeFalsy();
+    expect(codeSource.includes(customOptions.blocks[0].start)).toBeTruthy();
+    expect(codeSource.includes(customOptions.blocks[0].end)).toBeTruthy();
+    expect(moduleSource.includes(customOptions.blocks[0].start)).toBeFalsy();
+    expect(moduleSource.includes(customOptions.blocks[0].end)).toBeFalsy();
 
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');

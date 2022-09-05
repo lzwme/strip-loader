@@ -15,11 +15,7 @@ exports[`strip-loader should trip devblock by default 1`] = `
     constructor() {
         console.log('test for production');
         this.test();
-        /*
-            
-            
-            
-         */ 
+        /* strip-loader */ 
     }
     test() {
         console.log('test for production');

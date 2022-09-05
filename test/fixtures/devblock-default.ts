@@ -3,9 +3,9 @@ export class AbcDevblockTest {
     console.log('test for production');
 
     this.test();
-    /* devblock:start */
+    /** devblock:start */
     this.testForDev();
-    /* devblock:end */
+    /** devblock:end */
   }
   private test() {
     console.log('test for production');

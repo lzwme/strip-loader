@@ -42,8 +42,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(t|j)sx?$/,
-        // test: /\.(css|scss|less|js|ts|tsx)?$/,
+        // test: /\.(t|j)sx?$/,
+        test: /\.(css|scss|less|jsx?|tsx?)$/,
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
@@ -51,9 +51,13 @@ module.exports = {
             loader: path.resolve('@lzwme/strip-loader'),
             options: {
               disabled: proces.env.NODE_ENV === 'development',
-              // start: 'devblock:start',
-              // end: 'devblock:end',
               // debug: false,
+              // blocks: [{
+              //   start: 'devblock:start',
+              //   end: 'devblock:end',
+              //   prefix: '/*',
+              //   end: '*/',
+              // }],
             },
           },
         ],
@@ -63,7 +67,7 @@ module.exports = {
 }
 ```
 
-In your js/ts source files, For example:
+Use in your source files:
 
 ```js
 export class Abc {
@@ -74,12 +78,12 @@ export class Abc {
     this.test();
     /** devblock:end */
   }
-  /** devblock:start */
+  /* devblock:start */
   // this code block will be removed in production mode.
   private test() {
     console.log('test for development');
   }
-  /** devblock:end */
+  /* devblock:end */
 }
 ```
 
@@ -87,11 +91,64 @@ export class Abc {
 
 |         Name                 |         Type         |         Default         | Description                                      |
 | :--------------------------: | :------------------: | :---------------------: | :----------------------------------------------- |
-| **start**                    |      `{string}`      |    `devblock:start`     | You can customize the start comment tag.         |
-|  **end**                     |      `{string}`      |    `devblock:end`       | You can customize the end comment tag.           |
+| **blocks**                   |      `{object}`      |    ``     | You can customize the blocks config.         |
+| **blocks[i].start**          |      `{string}`      |    `devblock:end`       | You can customize the start comment tag.         |
+| **blocks[i].end**            |      `{string}`      |    `devblock:end`       | You can customize the end comment tag.           |
+| **blocks[i].preifx**         |      `{string}`      |    `/*`                 |          |
+| **blocks[i].suffix**         |      `{string}`      |    `*/`                 |          |
 | **isReplaceWithPlaceHolder** |      `{boolean}`      |    `true`              | Replace the matched code block with placeholder. |
 | **debug**                    |      `{boolean}`     |    `false`              | Print some debugging information.                |
 | **disabled**                 |      `{boolean}`     |    `false`              | Disable the loader.                              |
+
+### Example for `Options.blocks`
+
+Config for files of js,css and html:
+
+```ts
+const path = require('path');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css|scss|less|jsx?|tsx?|html?$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: path.resolve('@lzwme/strip-loader'),
+            options: {
+              disabled: proces.env.NODE_ENV === 'development',
+              // debug: false,
+              blocks: [
+                {
+                  start: 'devblock:start',
+                  end: 'devblock:end',
+                }, {
+                  start: 'devblock:start',
+                  end: 'devblock:end',
+                  prefix: '<--',
+                  end: '-->',
+                }
+              ],
+            },
+          },
+        ],
+      },
+    ];
+  }
+}
+```
+
+Use in html file:
+
+```html
+<div>for prod</div>
+
+<!-- devblock:start --->
+<div>for dev</div>
+<!-- devblock:end --->
+```
 
 ## Development
 

@@ -2,7 +2,7 @@
   "name": "@lzwme/strip-loader",
   "description": "A simple webpack loader to strip custom debug statements from your code.",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "repository": "lzwme/strip-loader",
   "homepage": "https://github.com/lzwme/strip-loader.git",
@@ -18,7 +18,7 @@
     "comments",
     "debug"
   ],
-  "files": ["src"],
+  "files": ["dist"],
   "scripts": {
     "prepare": "husky install",
     "dev": "npm run watch:build",
@@ -32,14 +32,15 @@
     "test": "run-s test:*",
     "test:lint": "flh --eslint --prettier",
     "test:unit": "npm run cov",
+    "watch:build": "tsc -p tsconfig.cjs.json -w",
     "watch:test": "jest --watch",
     "cov": "jest --coverage --silent",
     "cov:html": "jest --coverage --silent --reporter=html",
     "version": "standard-version",
-    "dist": "run-s test",
+    "dist": "run-s build test",
     "release": "run-s dist",
     "release-version": "run-s dist version",
-    "clean": "flh rm -f ./cjs ./esm"
+    "clean": "flh rm -f ./cjs ./dist"
   },
   "engines": {
     "node": ">=14"
