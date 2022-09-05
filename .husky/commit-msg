@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no flh --commitlint
+npx --no flh -- --commitlint
