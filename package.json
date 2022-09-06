@@ -18,7 +18,9 @@
     "comments",
     "debug"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepare": "husky install",
     "dev": "npm run watch:build",
@@ -53,6 +55,7 @@
     "@jest/core": "^29.0.1",
     "@jest/types": "^29.0.1",
     "@lzwme/fed-lint-helper": "1.12.4",
+    "@rollup/pluginutils": "^4.2.1",
     "@types/eslint": "^8.4.6",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.7.14",

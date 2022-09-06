@@ -29,7 +29,7 @@ yarn add -D @lzwme/strip-loader
 pnpm add -D @lzwme/strip-loader
 ```
 
-### Usage
+### Usage in webpack
 
 In your webpack configuration object, you'll need to add `@lzwme/strip-loader` to your list of modules.
 
@@ -85,6 +85,33 @@ export class Abc {
   }
   /* devblock:end */
 }
+```
+
+### Usage in rollup
+
+```js
+import { rollupStripPlugin } from '@lzwme/strip-loader';
+
+export default {
+  input: 'src/index.js',
+  output: {
+    dir: 'output',
+    format: 'cjs'
+  },
+  plugins: [
+    strip({
+      // includes: '**/*.(js|jsx|ts|tsx)',
+      // exlude: 'tests/**/*',
+      // debug: false,
+      // blocks: [{
+      //   start: 'devblock:start',
+      //   end: 'devblock:end',
+      //   prefix: '/*',
+      //   end: '*/',
+      // }],
+    })
+  ]
+};
 ```
 
 ## Options

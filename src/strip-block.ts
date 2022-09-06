@@ -1,4 +1,5 @@
-export interface StripOptions {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface StripOptions extends Record<string, any> {
   blocks?: {
     start: string;
     end?: string;
