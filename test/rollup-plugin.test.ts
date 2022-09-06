@@ -14,7 +14,7 @@ const compare = (fixture: string, options: RollupStripOptions = {}) => {
 describe('rollupStripPlugin', () => {
   it('should leave normal files untouched', () => {
     const r = compare('simple.ts');
-    expect(r.input).toEqual(r.output.code);
+    expect(r.input).toEqual(r.output!.code);
   });
 
   it('should trip devblock by default', async () => {
@@ -22,8 +22,8 @@ describe('rollupStripPlugin', () => {
     const r = compare(testId);
     expect(r.input.includes(defaultOptions.start)).toBeTruthy();
     expect(r.input.includes(defaultOptions.end)).toBeTruthy();
-    expect(r.output.code.includes(defaultOptions.start)).toBeFalsy();
-    expect(r.output.code.includes(defaultOptions.end)).toBeFalsy();
+    expect(r.output!.code.includes(defaultOptions.start)).toBeFalsy();
+    expect(r.output!.code.includes(defaultOptions.end)).toBeFalsy();
   });
 
   it('should not trip devblock filter by options.exclude', () => {
