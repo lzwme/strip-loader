@@ -7,12 +7,14 @@ import type { StripOptions } from '../src/index';
 const defaultOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
 
 describe('strip-loader', () => {
+  afterAll(() => jest.restoreAllMocks());
+
   it('should leave normal files untouched', async () => {
     const testId = 'simple.ts';
 
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
-    const codeSource = fs.readFileSync(path.resolve(compiler.options.context, testId), 'utf8');
+    const codeSource = fs.readFileSync(path.resolve(compiler.options.context!, testId), 'utf8');
     const moduleSource = getModuleSource(testId, stats) as string;
 
     expect(codeSource.includes(defaultOptions.start)).toBeFalsy();
@@ -31,7 +33,7 @@ describe('strip-loader', () => {
     const testId = 'devblock-default.ts';
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
-    const codeSource = fs.readFileSync(path.resolve(compiler.options.context, testId), 'utf8');
+    const codeSource = fs.readFileSync(path.resolve(compiler.options.context!, testId), 'utf8');
     const moduleSource = getModuleSource(testId, stats) as string;
 
     expect(codeSource.includes(defaultOptions.start)).toBeTruthy();
@@ -48,7 +50,7 @@ describe('strip-loader', () => {
     const testId = 'devblock-default.ts';
     const compiler = getCompiler(testId, { disabled: true });
     const stats = await compile(compiler);
-    const codeSource = fs.readFileSync(path.resolve(compiler.options.context, testId), 'utf8');
+    const codeSource = fs.readFileSync(path.resolve(compiler.options.context!, testId), 'utf8');
     const moduleSource = getModuleSource(testId, stats) as string;
 
     expect(codeSource.includes(defaultOptions.start)).toBeTruthy();
@@ -58,26 +60,29 @@ describe('strip-loader', () => {
   }, 10_000);
 
   it('should trip devblock by custom options', async () => {
+    const customBlock = {
+      start: 'lzwme:debug:start',
+      end: 'lzwme:debug:end',
+    };
     const customOptions: StripOptions = {
-      blocks: [
-        {
-          start: 'lzwme:debug:start',
-          end: 'lzwme:debug:end',
-        },
-      ],
+      blocks: [customBlock],
       isReplaceWithPlaceHolder: false,
       debug: true,
     };
+    const spyLog = jest.spyOn(console, 'log').mockImplementation(() => null);
+
     const testId = 'devblock-custom.ts';
     const compiler = getCompiler(testId, customOptions);
     const stats = await compile(compiler);
-    const codeSource = fs.readFileSync(path.resolve(compiler.options.context, testId), 'utf8');
+    const codeSource = fs.readFileSync(path.resolve(compiler.options.context!, testId), 'utf8');
     const moduleSource = getModuleSource(testId, stats) as string;
 
-    expect(codeSource.includes(customOptions.blocks[0].start)).toBeTruthy();
-    expect(codeSource.includes(customOptions.blocks[0].end)).toBeTruthy();
-    expect(moduleSource.includes(customOptions.blocks[0].start)).toBeFalsy();
-    expect(moduleSource.includes(customOptions.blocks[0].end)).toBeFalsy();
+    expect(codeSource.includes(customBlock.start)).toBeTruthy();
+    expect(codeSource.includes(customBlock.end)).toBeTruthy();
+    expect(moduleSource.includes(customBlock.start)).toBeFalsy();
+    expect(moduleSource.includes(customBlock.end)).toBeFalsy();
+
+    expect(spyLog).toHaveBeenCalled();
 
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');

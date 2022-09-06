@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { rollupStripPlugin, type RollupStripOptions } from '../src';
+import { rollupStripPlugin, type RollupStripOptions } from '../dist';
 
 const defaultOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
 
@@ -24,5 +24,14 @@ describe('rollupStripPlugin', () => {
     expect(r.input.includes(defaultOptions.end)).toBeTruthy();
     expect(r.output.code.includes(defaultOptions.start)).toBeFalsy();
     expect(r.output.code.includes(defaultOptions.end)).toBeFalsy();
+  });
+
+  it('should not trip devblock filter by options.exclude', () => {
+    const testId = 'devblock-default.ts';
+    let r = compare(testId, { exclude: '**/*.ts' });
+    expect(r.output).toBeNull();
+
+    r = compare(testId, { include: '**/*.js' });
+    expect(r.output).toBeNull();
   });
 });

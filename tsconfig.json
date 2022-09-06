@@ -15,7 +15,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
 
     /* Debugging Options */
     "traceResolution": false,

@@ -27,14 +27,15 @@ export function stripBlock(
   }
 
   for (const block of options.blocks) {
-    if (content.includes(block.start) && content.includes(block.end)) {
+    const { start = 'devblock:start', end = 'devblock:end', prefix = '', suffix = '' } = block;
+
+    if (content.includes(start) && (!end || content.includes(end))) {
       stats.striped++;
 
       if (options.debug) {
-        console.log('[strip-loader] for:', context?.resourcePath, block, stats);
+        console.log('[strip-loader] for:', context?.resourcePath, stats);
       }
 
-      const { start = 'devblock:start', end = 'devblock:end', prefix = '', suffix = '' } = block;
       const regexPattern = prefix
         ? new RegExp(`[\\t ]*{?${prefix} ?${start} ?${suffix}[\\s\\S]*?${prefix} ?${end} ?${suffix}}[\\t ]*\\n?`, 'g')
         : new RegExp(`[\\t ]*{?\\/\\*+ ?${start} ?\\*\\/[\\s\\S]*?\\/\\*+ ?${end} ?\\*\\/}?[\\t ]*\\n?`, 'g');
