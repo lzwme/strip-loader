@@ -36,8 +36,6 @@ In your webpack configuration object, you'll need to add `@lzwme/strip-loader` t
 **webpack.config.js**
 
 ```js
-const path = require('path');
-
 module.exports = {
   module: {
     rules: [
@@ -48,7 +46,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: path.resolve('@lzwme/strip-loader'),
+            loader: require.resolve('@lzwme/strip-loader'),
             options: {
               disabled: proces.env.NODE_ENV === 'development',
               // debug: false,
@@ -132,8 +130,6 @@ export default {
 Config for files of js,css and html:
 
 ```ts
-const path = require('path');
-
 module.exports = {
   module: {
     rules: [
@@ -143,7 +139,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: path.resolve('@lzwme/strip-loader'),
+            loader: require.resolve('@lzwme/strip-loader'),
             options: {
               disabled: proces.env.NODE_ENV === 'development',
               // debug: false,
