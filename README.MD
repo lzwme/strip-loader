@@ -48,7 +48,7 @@ module.exports = {
           {
             loader: require.resolve('@lzwme/strip-loader'),
             options: {
-              disabled: proces.env.NODE_ENV === 'development',
+              disabled: process.env.NODE_ENV === 'development',
               // debug: false,
               // blocks: [{
               //   start: 'devblock:start',
@@ -141,7 +141,7 @@ module.exports = {
           {
             loader: require.resolve('@lzwme/strip-loader'),
             options: {
-              disabled: proces.env.NODE_ENV === 'development',
+              disabled: process.env.NODE_ENV === 'development',
               // debug: false,
               blocks: [
                 {
