@@ -18,9 +18,6 @@
     "comments",
     "debug"
   ],
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "prepare": "husky install",
     "dev": "npm run watch:build",
