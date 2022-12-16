@@ -18,6 +18,7 @@ export function stripBlock(
   options: StripOptions = {},
   context?: { resourcePath?: string } & Record<string, unknown>
 ) {
+  if (!('disabled' in options)) options.disabled = process.env.NODE_ENV !== 'production';
   if (options.disabled || typeof content !== 'string') return content;
 
   stats.total++;

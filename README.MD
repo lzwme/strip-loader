@@ -98,6 +98,7 @@ export default {
   },
   plugins: [
     strip({
+      disabled: process.env.NODE_ENV !== 'production' ?,
       // includes: '**/*.(js|jsx|ts|tsx)',
       // exlude: 'tests/**/*',
       // debug: false,
