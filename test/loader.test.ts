@@ -3,6 +3,8 @@ import fs from 'fs';
 import { compile, getCodeFromBundle, getCompiler, getErrors, getModuleSource, getWarnings } from './helpers';
 import type { StripOptions } from '../src/index';
 
+process.env.NODE_ENV = 'production';
+
 // const isWin = process.platform === 'win32';
 const defaultOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
 

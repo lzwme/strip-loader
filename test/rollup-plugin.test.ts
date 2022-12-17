@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { rollupStripPlugin, type RollupStripOptions } from '../dist';
 
+process.env.NODE_ENV = 'production';
+
 const defaultOptions = { debug: false, start: 'devblock:start', end: 'devblock:end' };
 
 const compare = (fixture: string, options: RollupStripOptions = {}) => {
